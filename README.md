@@ -1,0 +1,2 @@
+# mgekuni_media
+一个restful视频图片管理后端服务，提供html版和electron版本
