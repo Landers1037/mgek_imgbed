@@ -1,0 +1,19 @@
+{
+  "port": 5000,
+  "debug": true,
+  "server_name": null,
+  "multiroutine": false,
+  "server": {
+    "image_path": "",
+    "image_size": 10485760,
+    "image_url": "",
+    "image_rule": "base64",
+    "image_zip": false,
+    "image_zip_path": ""
+  },
+  "database": {
+    "engine": "sqlite",
+    "sqlite": "sqlite:///test.db",
+    "mongo": ""
+  }
+}
