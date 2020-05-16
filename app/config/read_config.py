@@ -24,9 +24,10 @@ class Config:
             server, 'image_path', '')  # 图片保存位置
         self.image_size = set_default_config(
             server,'image_size',10*1024*1024
-        )    
+        )
+        self.image_page = set_default_config(server,'image_page',10)
         self.image_url = set_default_config(
-            server, 'image_url', '')  # 图片的服务器地址
+            server, 'image_url', 'http://localhost:{}/images/'.format(self.port))  # 图片的服务器地址
         self.image_rule = set_default_config(
             server, 'image_rule', 'base64')  # 图片hash的命名方式
         self.image_zip = set_default_config(
@@ -50,6 +51,8 @@ class Config:
             "multiroutine": self.multiroutine,
             "server": {
                 "image_path": self.image_path,
+                "image_size": self.image_size,
+                "image_page": self.image_page,
                 "image_url": self.image_url,
                 "image_rule": self.image_rule,
                 "image_zip": self.image_zip,
@@ -75,13 +78,12 @@ def read_config(conf=None):
             with open(path, 'r', encoding='utf-8')as f:
                 config = json.load(f)
                 c = Config(
-                    port=config["port"],
-                    debug=config["debug"],
-                    server_name=set_default_config(
-                        config, 'server_name', None),
-                    multiroutine=config["multiroutine"],
-                    server=config["server"],
-                    database=config["database"]
+                    port=set_default_config(config,"port",5000),
+                    debug=set_default_config(config, "debug",False),
+                    server_name=set_default_config(config, 'server_name', None),
+                    multiroutine=set_default_config(config, "multiroutine",False),
+                    server=error_config_handler(config,"server"),
+                    database=error_config_handler(config,"database")
                 )
                 return c
         except:
@@ -95,3 +97,9 @@ def set_default_config(config, name, value):
         return config[name]
     except:
         return value
+
+def error_config_handler(config,key):
+    try:
+        return config[key]
+    except:
+        return {}    

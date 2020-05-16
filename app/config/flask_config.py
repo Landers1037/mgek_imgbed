@@ -21,3 +21,10 @@ class flask_config:
     SECRET_KEY = 'This is a Secret Key'
     SERVER_NAME = raw_config.server_name
     MAX_CONTENT_LENGTH = raw_config.image_size
+    MONGO_DBNAME = 'mongo_mgekimghost'
+    MONGO_URI = 'mongodb://localhost:27017/mgek_imghost'
+    MONGO_HOST = 'localhost'
+    MONGO_PORT = 27017
+    MONGO_USERNAME = None
+    MONGO_PASSWORD = None
+

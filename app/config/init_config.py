@@ -17,7 +17,8 @@ def init_config():
         "server": {
             "image_path": '',
             "image_size": 10*1024*1024,
-            "image_url": '',
+            "image_page": 10,
+            "image_url": 'http://localhost:5000/images/',
             "image_rule": 'base64',
             "image_zip": False,
             "image_zip_path": ''

@@ -7,10 +7,9 @@
 from app.api import api
 from app import global_config
 from flask import redirect, request, abort
-from app.utils import rename,format_response
+from app.utils import rename,format_response,generate_time
 import os
-from app import db
-from app.models import Image
+from app.database import database
 
 #定义允许的文件类型
 #保存文件时的名称是做小写处理的，不必考虑名称问题
@@ -37,17 +36,15 @@ def image_upload():
                     f.save(os.path.join(path,name))
 
                     #数据库操作
-                    if global_config.engine == 'sqlite':
-                        try:
-                            file_db = Image(name=name,path=os.path.join(path,name))
-                            db.session.add(file_db)
-                            db.session.commit()
-                        except:
-                            db.session.rollback()  
-                            return format_response('error', '文件上传失败')
-                    else:
-                        #mongo db
-                        pass    
+                    try:
+                        database().set(global_config.engine, 'image',
+                                       {"name":name, "path": os.path.join(path, name), 
+                                       "url": "{}{}".format(global_config.image_url,name),
+                                       "time": generate_time()[0]
+                                       })
+                    except:  
+                        return format_response('error', '文件上传失败')
+ 
 
             return format_response('ok','文件上传成功')        
     except Exception as e:

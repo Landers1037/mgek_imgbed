@@ -7,3 +7,5 @@
 
 from . import rename
 from .format_response import format_response
+from .count_page import count_page
+from .generate_time import generate_time

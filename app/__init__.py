@@ -6,13 +6,16 @@
 from flask import Flask
 from app.config import *
 from flask_sqlalchemy import SQLAlchemy
+from flask_pymongo import PyMongo
 
+#初始时会默认初始化数据库连接，根据engine的配置选择配置的数据库
 db = SQLAlchemy()
+mongo = PyMongo()
 global_config = None
 
 
 def create_app(mode=None):
-    application = Flask(__name__)
+    application = Flask(__name__, static_url_path='/images', static_folder='../images')
 
     check_config()
     global global_config
@@ -22,10 +25,18 @@ def create_app(mode=None):
         application.debug = True
     application.config.from_object(flask_config())
 
-
-    db.init_app(application)
+    #对数据库连接添加错误判断
+    if global_config.engine == 'sqlite':
+        db.init_app(application)
+    elif global_config.engine == 'mongo':    
+        mongo.init_app(application)
+    else:
+        db.init_app(application)
+        
     from .api import api
+    from .auth import auth
     application.register_blueprint(api)
+    application.register_blueprint(auth)
 
 
     return application
