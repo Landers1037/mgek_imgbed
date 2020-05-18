@@ -15,3 +15,5 @@ CORS(auth)
 
 from . import get_token
 from . import db_init
+from . import mail_notify
+from . import remove_token

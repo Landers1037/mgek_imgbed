@@ -16,11 +16,19 @@
 5. 标准化的配置文件，JSON格式的配置文件，在服务启动后自动生成，可以根据需求进行修改
 6. 原生支持异步IO处理
 
+### update 5.18
+
+1. 全局实现双数据库sqlite/MongoDB切换
+2. 支持用户的token认证服务
+3. 支持用户通过邮件找回token
+4. 支持用户通过邮件删除账户
+
 ## 尚未实现🛠
 
 2. 后端的文件错误类型处理机制优化
 3. 视频文件的上传
 4. 数据分页处理
+5. 日志记录器
 
 ## 测试文件经先科大佬指导完成
 
@@ -134,11 +142,14 @@ $ gunicorn -w 2 -b 127.0.0.1:5000 img_server:app
 
 ### 认证token相关
 
-当前仅支持保存`token`至`sqlite`，使用`mongo`时无法使用该认证方式
+当前支持保存`token`至`sqlite`，`mongo`
 
-| 接口           | 解释      | 请求方式 | 请求参数              | 响应  |
-| -------------- | --------- | -------- | --------------------- | ----- |
-| /api/get_token | 获取token | post     | **JSON** {mail: 邮箱} | token |
+| 接口                | 解释                | 请求方式 | 请求参数                   | 响应  |
+| ------------------- | ------------------- | -------- | -------------------------- | ----- |
+| /api/get_token      | 获取token           | post     | **JSON** {mail: 邮箱}      | token |
+| /api/remove_token   | 删除token           | get      | **ARGS** ?mail=xx&token=xx | dict  |
+| /api/remove_token   | 删除token(通过邮件) | get      | **ARGS** ?mail=xx&check=xx | dict  |
+| /api/mail_for_reset | 发送找回邮件        | post     | **JSON** maill:邮箱        | dict  |
 
 ### 图片相关
 
@@ -160,7 +171,7 @@ $ gunicorn -w 2 -b 127.0.0.1:5000 img_server:app
 
 通过源码修改自己的服务器
 
-### 为验证增加mongoDB支持
+### 为验证增加mongoDB支持（现已全部支持此配置作废）
 
 `middleware/jwt_middleware.py`
 
@@ -206,7 +217,7 @@ SECRET_KEY = 'This is a Secret Key'
 
 在这里定义你的mongo数据库名称，连接地址
 
-### JWT token认证
+### 是否开启JWT token认证
 
 `config/flask_config.py`
 
@@ -229,6 +240,37 @@ JWT = True
 `app/models.py`
 
 通过新建类模型映射的方式 添加新的表和字段
+
+### 邮件通知服务
+
+`app/config/flask_config.py`
+
+```python
+    MAIL_HOST = 'smtp.163.com'
+    MAIL_PORT = 465
+    MAIL_USER = 'yourmail@163.com'
+    MAIL_PASS = 'mail_password'
+```
+
+填写自己的邮件服务器相关参数，邮件服务器SMTP地址，端口。邮箱账号和密码
+
+### 邮件内的账户清除链接示例
+
+```json
+http://localhost:5000/api/remove_token?mail=xxx@xx.com&check=1589767493.3290768
+```
+
+链接的渲染格式如下
+
+```python
+'http://{}/api/remove_token?mail={}&check={}'.format(server_name, address, check)
+```
+
+在`flask_config.py`中修改**SERVER_NAME**字段以自定义域名，默认为localhost。或者在全局配置文件`config.json`里修改`server_name`
+
+### 自定义邮件提示语
+
+`app/utils/mail.py`
 
 ## 帮助
 

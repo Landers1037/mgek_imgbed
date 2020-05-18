@@ -9,7 +9,7 @@
 from app import create_app
 from gevent.pywsgi import WSGIServer
 
-app = create_app(mode='dev')
+application = create_app(mode='dev')
 
 if __name__ == '__main__':
     #基于运行模式提供基于gevent的异步支持
@@ -17,9 +17,9 @@ if __name__ == '__main__':
     run_mode = global_config.multiroutine
     if run_mode:
         #using gevent
-        http_server = WSGIServer(('',global_config.port),app)
+        http_server = WSGIServer(('',global_config.port),application)
         http_server.serve_forever()
 
     else:
         #usually using in dev    
-        app.run(port=global_config.port)
+        application.run(port=global_config.port)

@@ -33,6 +33,11 @@ class Token(db.Model):
     __tablename__ = 'token'
     mail = db.Column(db.String(50),primary_key=True)
     token = db.Column(db.String(100))
+    check = db.Column(db.String(100),nullable=True)
+
+    def __init__(self,mail,token):
+        self.mail = mail
+        self.token = token
 
     def info():
         return {
