@@ -5,6 +5,7 @@ import About from '../views/About'
 import Config from '../views/Config'
 import home from  '../views/Image/home'
 import token from  '../views/Image/token'
+import list from "../views/Image/list";
 
 Vue.use(VueRouter);
 //在首次运行时记载全部的js文件无需动态路由加载
@@ -33,6 +34,11 @@ Vue.use(VueRouter);
       path: '/token',
       name: 'token',
       component: token
+    },
+    {
+      path: '/image_list',
+      name: 'image_list',
+      component: list
     },
 ];
 

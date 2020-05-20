@@ -33,7 +33,7 @@
         },
         methods:{
             home(){
-                this.$router.push('/')
+                this.$router.push('/home')
             },
             gen_token(){
                 let _this =this;
