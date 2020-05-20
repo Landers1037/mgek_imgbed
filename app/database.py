@@ -36,7 +36,8 @@ class database:
                     db.session.add(t)
                     db.session.commit()
                     return True
-                except:
+                except Exception as e:
+                    print(e.args)
                     db.session.rollback()
                     return False
 
@@ -179,13 +180,14 @@ class database:
                 mail = data["mail"]
                 if data["token"]:
                     #通过token删除
-                    t = Token.qurey.filter_by(mail=mail).first()
+                    t = Token.query.filter_by(mail=mail).first()
                     if t.token == data["token"]:
                         try:
                             db.session.delete(t)
                             db.session.commit()
                             return True
-                        except:
+                        except Exception as e:
+                            print(e.args)
                             db.session.rollback()
                             return False    
                     else:
