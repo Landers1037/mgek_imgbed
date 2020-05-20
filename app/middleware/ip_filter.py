@@ -28,9 +28,30 @@ def ip_filter(ip_address,rule):
     #ip_address地址 在global_ip里获取其值
     #rule 用于过滤的规则，形如10/60代表10次每60秒
     #使用split方式获取rule的两个值，前一个代表次数，后一个代表间隔时间单位秒
-
+    if ip_address not in global_ip:
+        global_ip[ip_address]['last_time'] = 0
+        global_ip[ip_address]['count'] = 0
+        global_ip[ip_address]['next_time'] = 0
+ 
+    global_ip[ip_address]['count'] += 1       
+    last_time = global_ip[ip_address]['last_time'] 
+    count = global_ip[ip_address]['count']
+    next_time = global_ip[ip_address]['next_time']
+    
+    try:
+        max_times, interval = rule.split('/')    
+    except Exception as e:
+        print(e)
+            
+        
     #对ip地址进行判断，获取当前的系统时间，与字典里ip对应的时间比较，
     #比较count的值 lasttime的值 如果当前时间-last_time < rule规定时间，并且count >= rule规定则abort
-
     #如果IP地址被禁止以后，更新一个next_time变量为下一次可以访问的时间，当前时间+5分钟
-    return abort()
+    time1 = time.time()
+    if time1 < next_time:
+        return abort()
+    if time1-last_time<int(interval) and count>=int(max_times):
+        global_ip[ip_address]['last_time'] = 0
+        global_ip[ip_address]['count'] = 0
+        global_ip[ip_address]['next_time'] = time1 + 300
+        return abort()
