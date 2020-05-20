@@ -12,7 +12,7 @@
     "image_zip_path": ""
   },
   "database": {
-    "engine": "sqlite",
+    "engine": "mongo",
     "sqlite": "sqlite:///test.db",
     "mongo": ""
   }

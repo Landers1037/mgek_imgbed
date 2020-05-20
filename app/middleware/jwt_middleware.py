@@ -6,35 +6,32 @@
 
 #jwt装饰器
 from flask import request,abort
-from app.api import api
+from app.api.img import img
 from itsdangerous import JSONWebSignatureSerializer
 import time
 from app.utils import format_response
 from app.models import Token
 from app import global_config
 from flask import current_app
+from app.database import database
 
 #仅支持sqlite数据库，你也可以自定义可信token
 test_token = {"id": 1, "token": 'just_for_test'}
 
 
-@api.before_request
+@img.before_request
 def jwt_auth():
     if current_app.config["JWT"]:
         token = request.args.get('token')
         if token:
-            if global_config.engine == 'sqlite':
-                ts = Token.query.all()
-                for t in ts:
-                    if token == t.token:
-                        pass
-                    elif token == test_token["token"]:
-                        pass
-                    else:
-                        return abort(401)
-            else:
-                # mongo not support
+            if token == test_token["token"]:
                 pass
+            else:
+                t = database().get(global_config.engine,'token',token)
+                if t:
+                    pass
+                else:
+                    return abort(401)
         else:
             #你可以使用常规的401权限码也可以使用统一响应码
             return format_response('forbidden','401 No Authority')

@@ -33,10 +33,12 @@ def create_app(mode=None):
     else:
         db.init_app(application)
         
-    from .api import api
-    from .auth import auth
-    application.register_blueprint(api)
+    from .api.img import img
+    from .api.auth import auth
+    from .api.sys import sys
+    application.register_blueprint(img)
     application.register_blueprint(auth)
+    application.register_blueprint(sys)
 
 
     return application

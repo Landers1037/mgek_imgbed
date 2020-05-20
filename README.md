@@ -1,4 +1,4 @@
-# mgekuni_media
+# mgek img_bed
 一个restful视频图片管理后端服务，提供html版和electron版本
 
 对原有项目mgek_imghost的重写，分成前后端项目，此项目仅提供后端的api服务

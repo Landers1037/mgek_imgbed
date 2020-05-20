@@ -10,13 +10,15 @@ from app import db
 
 class Image(db.Model):
     __tablename__ = 'image'
-    name = db.Column(db.String(100),primary_key=True)
-    path = db.Column(db.String(100),nullable=False)
-    url = db.Column(db.String(100),nullable=False)
-    time = db.Column(db.Integer)
+    name = db.Column(db.String(100),primary_key=True) #图片唯一id
+    mail = db.Column(db.String(50),nullable=False) #图片所属的账户
+    path = db.Column(db.String(100),nullable=False) #图片地址
+    url = db.Column(db.String(100),nullable=False) #图片在服务器上的地址
+    time = db.Column(db.Integer) #图片更新时间
 
-    def __init__(self,name,path,url,time):
+    def __init__(self,name,mail,path,url,time):
         self.name = name
+        self.mail = mail
         self.path = path
         self.url = url
         self.time = time
@@ -27,6 +29,7 @@ class Image(db.Model):
             "path": self.path,
             "url": self.url,
             "time": self.time
+            #为保证图片信息安全不返回所属账户
         }
 
 class Token(db.Model):
