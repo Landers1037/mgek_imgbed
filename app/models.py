@@ -38,9 +38,10 @@ class Token(db.Model):
     token = db.Column(db.String(100))
     check = db.Column(db.String(100),nullable=True)
 
-    def __init__(self,mail,token):
+    def __init__(self,mail,token,check):
         self.mail = mail
         self.token = token
+        self.check = check
 
     def info():
         return {
