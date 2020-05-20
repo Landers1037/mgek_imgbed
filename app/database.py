@@ -174,12 +174,13 @@ class database:
                 pass
 
     def remove_token(self,engine,data):
+
         if engine == 'sqlite':
             try:
                 mail = data["mail"]
                 if data["token"]:
                     #通过token删除
-                    t = Token.qurey.filter_by(mail=mail).first()
+                    t = Token.query.filter_by(mail=mail).first()
                     if t.token == data["token"]:
                         try:
                             db.session.delete(t)
@@ -191,7 +192,7 @@ class database:
                     else:
                         return False
                 elif data["check"]:
-                    t = Token.qurey.filter_by(mail=mail).first()
+                    t = Token.query.filter_by(mail=mail).first()
                     if t.check == data["check"]:
                         try:
                             db.session.delete(t)
