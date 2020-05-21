@@ -28,35 +28,31 @@ def image_upload():
 
     if token and database().get(global_config.engine,'token',token):
         #账户存在
-        try:
-            if not os.path.exists(path):
-                os.mkdir(path)
-                #保证目录的创建
+        if not os.path.exists(path):
+            os.mkdir(path)
+            #保证目录的创建
             #判断是否有上传文件
-            if 'file' not in request.files:
-                return format_response('error', '空的上传文件')
-            else:
-                res = database().get(global_config.engine, 'token', token)
-                for f in files:
-                    if f.filename:
-                        name = rename.rename(f.filename)
-                        f.save(os.path.join(path, name))
+        if 'file' not in request.files:
+            return format_response('error', '空的上传文件')
+        else:
+            res = database().get(global_config.engine, 'token', token)
+            for f in files:
+                if f.filename:
+                    name = rename.rename(f.filename)
+                    f.save(os.path.join(path, name))
 
-                        #数据库操作
-                        try:
-                            database().set(global_config.engine, 'image',
-                                           {"name": name, "mail": res, "path": os.path.join(path, name),
-                                            "url": "{}{}".format(global_config.image_url, name),
-                                            "time": generate_time()[0]
-                                            })
-                        except:
-                            return format_response('error', '文件上传失败')
+                    #数据库操作
+                    res = database().set(global_config.engine, 'image',
+                                        {"name": name, "mail": res, "path": os.path.join(path, name),
+                                        "url": "{}{}".format(global_config.image_url, name),
+                                        "time": generate_time()[0]
+                                    })
+                    if res:
+                        pass
+                    else:
+                        return format_response('error', '文件上传失败')
 
-                return format_response('ok', '文件上传成功')
-
-        except Exception as e:
-            print(e.args)
-            return format_response('error', '文件上传失败')
+            return format_response('ok', '文件上传成功')
 
     else:
         return format_response('error', '无文件上传权限')

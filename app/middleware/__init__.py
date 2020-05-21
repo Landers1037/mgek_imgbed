@@ -8,4 +8,5 @@
 #json web token
 
 from . import jwt_middleware
+from . import ip_filter
 

@@ -17,9 +17,13 @@ class database:
         "image": Image,
         "token": Token
     }
+    def init(self):
+        db.create_all()
+
     def set(self,engine,table,data):
         if engine == 'sqlite':
             #判断操作的表
+            self.init()
             if table == 'image':
                 try:
                     d = self.sql_map[table](name=data["name"], mail=data["mail"], path=data["path"], url=data["url"], time=data["time"])
@@ -64,7 +68,8 @@ class database:
                 try:
                     d = self.sql_map[table].query.filter_by(name=data).first()
                     return d.info()
-                except:
+                except Exception as e:
+                    print(e.args)
                     return {}
 
             elif table == 'token':

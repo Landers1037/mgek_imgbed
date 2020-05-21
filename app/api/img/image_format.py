@@ -15,17 +15,12 @@ from app import global_config
 @img.route('/api/image_format')
 def image_format():
     name = request.json["name"]
-    try:
-        img = database().get(global_config.engine,'image',name)
-        print(global_config.image_url)
-        res = {
+    img = database().get(global_config.engine,'image',name)
+    res = {
             "raw": img["name"],
             "link": "{}{}".format(global_config.image_url,img["name"]),
             "html": "<img src={}{} alt=image>".format(global_config.image_url,img["name"]),
             "markdown": "![image]({}{})".format(global_config.image_url,img["name"])
         }
-        return format_response('ok',res)
+    return format_response('ok',res)
 
-    except Exception as e:
-        print(e.args)
-        return format_response('error','获取格式化信息失败')

@@ -28,10 +28,12 @@ def create_app(mode=None):
     #对数据库连接添加错误判断
     if global_config.engine == 'sqlite':
         db.init_app(application)
+
     elif global_config.engine == 'mongo':    
         mongo.init_app(application)
     else:
         db.init_app(application)
+
         
     from .api.img import img
     from .api.auth import auth

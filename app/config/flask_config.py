@@ -28,8 +28,10 @@ class flask_config:
     MONGO_USERNAME = None
     MONGO_PASSWORD = None
     JWT = True
+    IP_FILTER = True
+    RULE = '10/60'
     MAIL_HOST = 'smtp.163.com'
     MAIL_PORT = 465
-    MAIL_USER = 'yourmail@163.com'
-    MAIL_PASS = 'mail_password'
+    MAIL_USER = 'user@163.com'
+    MAIL_PASS = 'pass'
 
