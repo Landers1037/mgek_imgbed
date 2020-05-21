@@ -35,7 +35,7 @@ def image_upload():
         if 'file' not in request.files:
             return format_response('error', '空的上传文件')
         else:
-            res = database().get(global_config.engine, 'token', token)
+            mail = database().get(global_config.engine, 'token', token)
             for f in files:
                 if f.filename:
                     name = rename.rename(f.filename)
@@ -43,7 +43,7 @@ def image_upload():
 
                     #数据库操作
                     res = database().set(global_config.engine, 'image',
-                                        {"name": name, "mail": res, "path": os.path.join(path, name),
+                                        {"name": name, "mail": mail, "path": os.path.join(path, name),
                                         "url": "{}{}".format(global_config.image_url, name),
                                         "time": generate_time()[0]
                                     })
