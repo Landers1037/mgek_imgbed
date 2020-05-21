@@ -22,4 +22,4 @@ if __name__ == '__main__':
 
     else:
         #usually using in dev    
-        application.run(port=global_config.port)
+        application.run(port=global_config.port,debug=True)

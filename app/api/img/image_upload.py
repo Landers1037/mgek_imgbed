@@ -22,6 +22,7 @@ def image_upload():
     #默认的文件列表是file，这应该与前端保持同步
     #没有使用安全命名的方式，因为所有文件名会经过hash计算后重命名
     #默认需要登录认证
+    print(request)
     token = request.args.get("token")
     files = request.files.getlist('file')
     path = global_config.image_path if global_config.image_path != '' else os.path.join(os.getcwd(),"images")

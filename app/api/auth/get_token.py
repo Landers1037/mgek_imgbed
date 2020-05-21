@@ -8,10 +8,12 @@ from app.middleware.jwt_middleware import genernate
 from app.api.auth import auth
 from flask import jsonify,g,request
 from app import global_config
+from app.utils import log
 
 from app.database import database
 
 @auth.route('/api/get_token',methods=['POST'])
+@log
 def get_token():
     try:
         mail = request.json["mail"]

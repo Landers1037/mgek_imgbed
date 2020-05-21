@@ -27,6 +27,7 @@ class flask_config:
     MONGO_PORT = 27017
     MONGO_USERNAME = None
     MONGO_PASSWORD = None
+    ERROR_LOG_DIR = "error_log"
     JWT = True
     MAIL_HOST = 'smtp.163.com'
     MAIL_PORT = 465
