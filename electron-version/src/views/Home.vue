@@ -9,7 +9,8 @@
       <el-button type="primary" @click="config">配置</el-button>
       <p>查看本软件的详细信息</p>
       <el-button type="info" @click="about">关于本软件</el-button>
-      <i class="el-icon-s-home" style="position: absolute;bottom: 10px;right: 10px;cursor: pointer" @click="home"></i>
+      <i class="el-icon-picture" style="position: absolute;bottom: 10px;right: 40px;cursor: pointer;font-size: 20px" @click="image_list"></i>
+      <i class="el-icon-upload" style="position: absolute;bottom: 10px;right: 10px;cursor: pointer;font-size: 20px" @click="home"></i>
     </div>
   </div>
 </template>
@@ -36,6 +37,9 @@ export default {
     },
     about(){
       this.$router.push('/about')
+    },
+    image_list(){
+      this.$router.push('/image_list')
     }
   }
 }
