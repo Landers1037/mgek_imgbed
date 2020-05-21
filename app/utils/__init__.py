@@ -10,3 +10,4 @@ from .format_response import format_response
 from .count_page import count_page
 from .generate_time import generate_time
 from .mail import mail_to
+from .error_log import log

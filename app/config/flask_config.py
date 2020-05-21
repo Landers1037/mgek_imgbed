@@ -34,4 +34,3 @@ class flask_config:
     MAIL_PORT = 465
     MAIL_USER = 'user@163.com'
     MAIL_PASS = 'pass'
-

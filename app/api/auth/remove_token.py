@@ -21,6 +21,7 @@ def remove_token():
     check = request.args.get('check')
 
     if mail and token:
+        
         res = database().remove_token(global_config.engine,{"mail":mail,"token":token})
         if res:
             return format_response('ok', '密钥删除成功')
