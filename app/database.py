@@ -120,11 +120,16 @@ class database:
                 return None
 
     def get_image_list(self,engine,data):
+        
         if engine == 'sqlite':
+            print('************')
+            print(data)
             try:
                 img_list = Image.query.filter_by(mail=data).all()
+                print(img_list)
                 return img_list
-            except:
+            except Exception as e:
+                print(e)
                 return False
         else:
             try:
