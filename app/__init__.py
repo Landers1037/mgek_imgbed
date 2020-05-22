@@ -7,6 +7,7 @@ from flask import Flask
 from app.config import *
 from flask_sqlalchemy import SQLAlchemy
 from flask_pymongo import PyMongo
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 #初始时会默认初始化数据库连接，根据engine的配置选择配置的数据库
 db = SQLAlchemy()
@@ -16,7 +17,7 @@ global_config = None
 
 def create_app(mode=None):
     application = Flask(__name__, static_url_path='/images', static_folder='../images')
-
+    application.wsgi_app = ProxyFix(app.wsgi_app, x_prefix=1)
     check_config()
     global global_config
     global_config = read_config()

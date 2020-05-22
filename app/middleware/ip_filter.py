@@ -29,7 +29,7 @@ def ip_filter():
     #ip_address地址 在global_ip里获取其值
     #rule 用于过滤的规则，形如10/60代表10次每60秒
     #使用split方式获取rule的两个值，前一个代表次数，后一个代表间隔时间单位秒
-    ip_address = request.host
+    ip_address = request.remote_addr
     rule = current_app.config["RULE"]
     if_use = current_app.config["IP_FILTER"]
     global global_ip
